@@ -1,0 +1,242 @@
+Node 
+----
+-> server create cheyan use cheyuna technology 
+-> node server -> (JS environment + JS Libraries)
+
+Features for choosing Node : - 
+------------------------
+-> Extreamly Faster
+    - Browsers have inbuild js engine so no need to depend external engine fo running node server
+    - Asynchronous Lang (first process synchronous then Asynchronous code) - single threaded (single call stack) + event loop (call back hell -         situation when call que becomes full like deadlock)
+-> High Scalable (Project size doesnt matters)
+-> Open Source (tech and libraries ar free)
+
+Node Global Objects
+------------------
+It can access anywhere in node js file without export/importing
+
+Node Module System
+------------------
+Each file of js is considered as modules each module consits of codes of Objects,attributes,method.. - group of modules is packages
+To reuse modules in in js we have export and importing
+instead of import - require()  - can use anywhere in code file
+instead of export - exports seperately / module.exports together
+                    fun1() fun2() 
+                    => exports fun1()  
+                    => module.exports={fun1.fun2}
+
+InBuild modules in JS
+--------------------
+fs - file system module - to handle file related 
+crypto - to secure data
+process - to process environmental variables in running state
+
+Package System in node
+----------------------
+collection of modules is package
+
+- package.json - handle packages in node, it contain npm configuration
+- install packages - npm install packagename
+- node modules - store copy of installed packages
+- package-lock.josn - to lock / store versions of installled packages
+
+
+Frame Work in node to create node-server
+
+Express
+-----
+Framework of node - resolve client server request
+
+Server Creation
+---------------
+- npm i express
+
+
+.env file
+---------
+used to store enironment variables : - variable that contain application configuration needed during run time 
+it convert static working of app into dynamic (local host running to server running)
+
+process module manages /handle env variable in node
+
+
+MongoDB
+-------
+| SQL                                                | MongoDB
+____________________________                         __________________________________
+
+- Store data as table  (rows,col)                   - collection of json documents                     
+- Relational db model (reltion bw collection)       - no relational db No-SQL db (no reltion bw collection)
+- uses fixed schema                                 - uses dynamic schema (schema - structure of each collection)
+- optimized to complex joins and transactions       - optimized for scalability and performance
+- support rich set of data-types                    - limited amount of data types
+- ACID(atomicity,consistancy,isolation,durability)  - CAP (consistancy,availability,partition tolerance)
+- mainly used for traditional business applications - uses in bigData and realtime web apps
+
+Read
+----
+
+MongoDB Shell Commants
+----------------------
+-> show databases  - list all databases in our system
+-> use database_name - to open perticulat db
+-> db.collection_name.find() - read all objects inside collection
+-> db.collection_name.find(condition) - read data that satisfy condition //condition - ({"name":"manu"})
+-> db.collection_name.find().limit(3)
+-> db.collection_name.sort({"key":1})- asc  {"key":-1} des
+-> db.collection_name.findOne() - list first object
+-> db.collection_name.findOne({condition}) - list condition  object
+
+query commands 
+-------------
+- $gt / $lt / $gte / $lte 
+    -> db.students.find({"age":{$gt:23}})
+
+- $or / $and  
+    -> db.students.find({$or: [{"name":"anu"},{"name":"manu"}]})
+
+- $regex - to pass matching patern from backend
+
+create
+------
+-> db.collection_name.insertOne({datas}) ->db.students.insertOne({
+  _id: ObjectId('665d5b75a8e05e234070d8f7'),
+  name: 'kanu',
+  age: 28,
+  place: 'Kozhi'
+})
+
+-> db.collection_name.insertMany([{data1},{data1},{data1}])
+
+Update
+------
+db.collection_name.updateOne({name:"manu"}.{$set:{name:"manu s"}})
+db.collection_name.updateMany() -> db.students.updateMany({place:"Kochi"},{$set:{place:"TVM"}})44
+
+
+db.collection_name.updateOne({name:"manu"}.{$inc:{age:-2}})
+
+db.students.updateOne({name:"Ashid"},{$push:{hobbies:"dancing"}})
+db.students.updateOne({name:"Ashid"},{$pop:{hobbies:"dancing"}})
+
+findByIdAndUpdate()
+
+delete
+-----
+db.collection_name.deleteOne()
+db.collection_name.deleteMany()
+findByIdAndDelete
+
+
+-------------------------------------------------------------------------
+
+Aggregation - used to fetch datas by join two collections
+
+db.students.aggregate({$lookup:{from:"assignments",localField:"rollno",foreignField:"stud_roll",as:"studentAssignments"}})
+
+
+//
+to connect mongodb server 
+MOngos - library used to connect mongodb with node server
+
+
+
+Try Catch Block
+--------------
+To resolve unexpected errors
+
+try=>error causing code
+catch=>code resolved
+
+
+(method,url,reqBody,reqHeader)
+
+if body of an api reqBody incude media/file data
+----------
+bodyHeader should include
+{
+    Content-Type:multipart/formData
+}
+
+
+if no bodyHeader include body
+
+{
+    Content-Type:application/json
+}
+
+Regular Expression Rules
+-----------------------
+basic Rules
+----------
+
+/[abc]/ - either a or b or c - ab ac abc addcc
+/[a-z]/  /[A-Z]/
+/[^a-z]/ - except a-Z
+/[0-9]/ - numbers
+/[^a-zA-Z0-9]/ - except special chaaracter
+/[a-zA-Z]/ - words
+
+/\d/ - digits numbers
+/\D/ - except digits
+/\w/ - words lettters numbers
+/\W/ - except words
+/^   - starts with
+/$   - ends with
+
+Quantifiers
+----------
+(a-z) - [a-z] {1} - count 1 name - [a-zA-Z ]{5} Anu s
+(a-z) (5,10) - minimum count 5 maximum 10 
+
+[a-z]+ - minimum 1 maximum
+
+[a-z]* - minimum 0 maximum
+
+[K][L][0-9]{2}[a-z]{1,2}/d{4}
+
+
+multer
+------
+its a js library used to store file type contents in db
+
+multer is a middle ware - (middle ware has the power to control router request(request to Server ))
+
+
+to add authorization (json-webtoken)
+-------------------
+npm i jsonwebtoken
+
+libray used to apply authorization in server side is called json-webtoken
+
+when user login if the login is success a radnom unique token is provided and send as response to client during each time client sends a request the server rechecks that token with a middleware the request is acceessed only when the token matches
+
+_____________________________________________
+
+express.static()
+----------------
+Export a folder to client app(backend to frontend) - using express.static()
+
+
+QueryParams
+-------
+to pass data    -   ?variable_name=${data}
+
+while using query param we dont want to make any change in routes in backend
+if we are using url params we want to make changes /:variable_name
+
+
+ContextApi - state managemnet methadology in raect
+----------
+create context which includes state and functions
+
+pas that context into root component
+
+-> provide a centralized way to to manage state across components 
+-> share specific informations like state or functions with multiple components without props drilling
+
+Steps
+-----
+1- Create Context -- createContext()
+2- Proving the context -- use 'Provider' of context
+3- accessing context -- useContext()
